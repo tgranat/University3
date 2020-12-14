@@ -33,5 +33,16 @@ namespace University3.Controllers
             return Ok(mappedResult);
 
         }
+
+        [HttpGet]
+        // alternative:  [HttpGet("{id}")]    and skip [Route...]
+        [Route("{id}")]
+        public async Task<ActionResult<IEnumerable<Student>>> GetStudent(int id)
+        {
+
+            var result = await repo.GetStudentAsync(id);
+            var mappedResult = mapper.Map<StudentDto>(result);
+            return Ok(mappedResult);
+        }
     }
 }
