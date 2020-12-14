@@ -17,7 +17,10 @@ namespace University3.Data
 
         public async Task<IEnumerable<Student>> GetAllStudentsAsync()
         {
-            return  await db.Students.ToListAsync() ;
+            return  await db.Students
+                .Include(s => s.Enrollments)
+                .ThenInclude(s => s.Course)
+                .ToListAsync();
         }
     }
 }
