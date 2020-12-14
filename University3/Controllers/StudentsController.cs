@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using University3.Data;
 
 namespace University3.Controllers
 {
@@ -11,9 +12,11 @@ namespace University3.Controllers
     [ApiController]
     public class StudentsController : ControllerBase
     {
-        public StudentsController()
-        {
+        private StudentRepository repo;
 
+        public StudentsController(University3Context context)
+        {
+            repo = new StudentRepository(context);
         }
     }
 }
