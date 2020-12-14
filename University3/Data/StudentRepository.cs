@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using University3.Models.Entities;
 
 namespace University3.Data
 {
@@ -11,6 +13,11 @@ namespace University3.Data
         public StudentRepository(University3Context db)
         {
             this.db = db;
+        }
+
+        public async Task<IEnumerable<Student>> GetAllStudentsAsync()
+        {
+            return  await db.Students.ToListAsync() ;
         }
     }
 }
