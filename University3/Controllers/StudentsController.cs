@@ -43,9 +43,15 @@ namespace University3.Controllers
 
         }
 
+        [HttpGet("searchByEmail/{email}")]
+        public async Task<ActionResult<StudentDto>> GetStudent(string email, bool includeCourses = false)
+        {
+            var result = await repo.GetStudentAsync(email, includeCourses);
+            var mappedResult = mapper.Map<StudentDto>(result);
+            return Ok(mappedResult);
+        }
 
         [HttpGet]
-        // alternative:  [HttpGet("{id}")]    and skip [Route...]
         [Route("{id}")]
         public async Task<ActionResult<Student>> GetStudent(int id, bool includeCourses = false)
         {

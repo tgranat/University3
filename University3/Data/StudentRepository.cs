@@ -25,6 +25,16 @@ namespace University3.Data
                 await db.Students
                 .ToListAsync();
         }
+        public async Task<Student> GetStudentAsync(string email, bool includeCourses)
+        {
+            return includeCourses ?
+                await db.Students
+                .Include(s => s.Enrollments)
+                .ThenInclude(s => s.Course)
+                .FirstOrDefaultAsync(s => s.Email == email) :
+                await db.Students
+                .FirstOrDefaultAsync(s => s.Email == email);
+        }
         public async Task<Student> GetStudentAsync(int id, bool includeCourses)
         {
             var query = db.Students.AsQueryable();
