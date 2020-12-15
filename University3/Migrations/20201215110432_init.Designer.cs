@@ -9,7 +9,7 @@ using University3.Data;
 namespace University3.Migrations
 {
     [DbContext(typeof(University3Context))]
-    [Migration("20201214120354_init")]
+    [Migration("20201215110432_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,7 +32,7 @@ namespace University3.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Course");
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("University3.Models.Entities.Enrollment", b =>

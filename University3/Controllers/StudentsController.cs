@@ -65,6 +65,15 @@ namespace University3.Controllers
             return Ok(mappedResult);
         }
 
+        // TODO: test, move this to CoursesController
+        [HttpGet("allcourses")]
+        public async Task<ActionResult<IEnumerable<Student>>> GetAllCourses()
+        {
+            var result = await repo.GetAllCoursesAsync(true);
+            var mappedResult = mapper.Map<IEnumerable<CourseDto>>(result);
+            return Ok(mappedResult);
+
+        }
 
     }
 }

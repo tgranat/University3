@@ -30,7 +30,7 @@ namespace University3.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Course");
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("University3.Models.Entities.Enrollment", b =>

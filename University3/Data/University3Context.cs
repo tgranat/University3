@@ -10,6 +10,7 @@ namespace University3.Data
     public class University3Context : DbContext
     {
         public DbSet<Student> Students { get; set; }
+        public DbSet<Course> Courses { get; set; }
         public University3Context(DbContextOptions<University3Context> options) : base(options) { }
     }
 }
