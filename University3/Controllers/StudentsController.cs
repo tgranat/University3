@@ -37,7 +37,7 @@ namespace University3.Controllers
         [HttpGet]
         // alternative:  [HttpGet("{id}")]    and skip [Route...]
         [Route("{id}")]
-        public async Task<ActionResult<IEnumerable<Student>>> GetStudent(int id, bool includeCourses = false)
+        public async Task<ActionResult<Student>> GetStudent(int id, bool includeCourses = false)
         {
 
             var result = await repo.GetStudentAsync(id, includeCourses);
