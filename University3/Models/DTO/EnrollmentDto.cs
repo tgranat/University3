@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace University3.Models.DTO
 {
-    public class CourseDto
+    public class EnrollmentDto
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public StudentDto Student { get; set; }
+        public CourseDto Course { get; set; }
     }
 }
