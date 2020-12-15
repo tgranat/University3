@@ -7,7 +7,8 @@ namespace University3.Models.DTO
 {
     public class EnrollmentDto
     {
-        public StudentDto Student { get; set; }
+        //public StudentDto Student { get; set; }
         public CourseDto Course { get; set; }
+        public int CourseId { get; set; }
     }
 }

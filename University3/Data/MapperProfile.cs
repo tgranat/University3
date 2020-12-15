@@ -12,11 +12,13 @@ namespace University3.Data
     {
         public MapperProfile()
         {
-            CreateMap<Student, StudentDto>()
-                .ForMember(
-                dest => dest.Courses,
-                from => from.MapFrom(c => c.Enrollments.Select(e => e.Course).ToList()));
+            CreateMap<Student, StudentDto>();
+            //CreateMap<Student, StudentDto>()
+            //    .ForMember(
+            //    dest => dest.Courses,
+            //    from => from.MapFrom(c => c.Enrollments.Select(e => e.Course).ToList()));
 
+            CreateMap<Enrollment, EnrollmentDto>();
             CreateMap<Course, CourseDto>();
 
          }

@@ -64,5 +64,7 @@ namespace University3.Controllers
             var mappedResult = mapper.Map<StudentDto>(result);
             return Ok(mappedResult);
         }
+
+
     }
 }

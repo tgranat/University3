@@ -12,6 +12,6 @@ namespace University3.Models.DTO
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public ICollection<CourseDto> Courses { get; set; }
+        public ICollection<EnrollmentDto> Enrollments { get; set; }
     }
 }
