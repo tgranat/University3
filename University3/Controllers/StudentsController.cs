@@ -27,12 +27,22 @@ namespace University3.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Student>>> GetAllStudents(bool includeCourses = false)
         {
-
             var result = await repo.GetAllStudentsAsync(includeCourses);
             var mappedResult = mapper.Map<IEnumerable<StudentDto>>(result);
             return Ok(mappedResult);
 
         }
+
+        // Another way to get all students including their courses
+        [HttpGet("course")]
+        public async Task<ActionResult<IEnumerable<Student>>> GetAllStudentsAndCourse()
+        {
+            var result = await repo.GetAllStudentsAsync(true);
+            var mappedResult = mapper.Map<IEnumerable<StudentDto>>(result);
+            return Ok(mappedResult);
+
+        }
+
 
         [HttpGet]
         // alternative:  [HttpGet("{id}")]    and skip [Route...]
@@ -41,6 +51,16 @@ namespace University3.Controllers
         {
 
             var result = await repo.GetStudentAsync(id, includeCourses);
+            var mappedResult = mapper.Map<StudentDto>(result);
+            return Ok(mappedResult);
+        }
+
+        // Another way to get a student including their course
+        [HttpGet]
+        [Route("{id}/course")]
+        public async Task<ActionResult<Student>> GetStudentAndCourse(int id)
+        {
+            var result = await repo.GetStudentAsync(id, true);
             var mappedResult = mapper.Map<StudentDto>(result);
             return Ok(mappedResult);
         }
