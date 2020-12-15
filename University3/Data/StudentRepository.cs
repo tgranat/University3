@@ -15,19 +15,21 @@ namespace University3.Data
             this.db = db;
         }
 
-        public async Task<IEnumerable<Student>> GetAllStudentsAsync()
+        public async Task<IEnumerable<Student>> GetAllStudentsAsync(bool includeCourses)
         {
-            return await db.Students
+            return includeCourses ?
+                await db.Students
                 .Include(s => s.Enrollments)
                 .ThenInclude(s => s.Course)
+                .ToListAsync() :
+                await db.Students
                 .ToListAsync();
         }
-        public async Task<Student> GetStudentAsync(int id)
+        public async Task<Student> GetStudentAsync(int id, bool includeCourses)
         {
-            return await db.Students
-                .Include(s => s.Enrollments)
-                .ThenInclude(s => s.Course)
-                .FirstOrDefaultAsync(s => s.Id == id);
+            var query = db.Students.AsQueryable();
+            query = includeCourses ? query.Include(s => s.Enrollments).ThenInclude(s => s.Course) : query;
+            return await query.FirstOrDefaultAsync(s => s.Id == id);
         }
     }
 }
