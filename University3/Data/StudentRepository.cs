@@ -63,5 +63,15 @@ namespace University3.Data
                 await db.Courses
                 .FirstOrDefaultAsync();
         }
+
+        public async Task AddAsync<T>(T added)
+        {
+            await db.AddAsync(added);
+        }
+
+        public async Task<bool> SaveAsync()
+        {
+            return (await db.SaveChangesAsync()) >= 0;
+        }
     }
 }

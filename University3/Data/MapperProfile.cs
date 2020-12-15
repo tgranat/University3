@@ -12,7 +12,7 @@ namespace University3.Data
     {
         public MapperProfile()
         {
-            CreateMap<Student, StudentDto>();
+            CreateMap<Student, StudentDto>().ReverseMap();
             //CreateMap<Student, StudentDto>()
             //    .ForMember(
             //    dest => dest.Courses,

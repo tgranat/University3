@@ -71,6 +71,30 @@ namespace University3.Controllers
             return Ok(mappedResult);
         }
 
+        [HttpPost]
+        public async Task<ActionResult<Student>> CreateStudent(StudentDto studentDto)
+        {
+            if (await repo.GetStudentAsync(studentDto.Email, false) != null)
+            {
+                ModelState.AddModelError("Email", "Email in use");
+                return BadRequest(ModelState);
+            }
+
+            var student = mapper.Map<Student>(studentDto);
+            await repo.AddAsync(student);
+
+            if (await repo.SaveAsync())
+            {
+                var model = mapper.Map<StudentDto>(student);
+                return CreatedAtAction(nameof(GetStudent), new { email = model.Email }, model);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+
         // TODO: test, move this to CoursesController
         [HttpGet("allcourses")]
         public async Task<ActionResult<IEnumerable<Student>>> GetAllCourses()
