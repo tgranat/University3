@@ -74,6 +74,11 @@ namespace University3.Data
         {
             return db.Enrollments.Any(e => e.StudentId == studentId && e.CourseId == courseId);
         }
+         
+        public void Remove<T>(T removed)
+        {
+            db.Remove(removed);
+        }
 
         public async Task AddAsync<T>(T added)
         {

@@ -112,11 +112,6 @@ namespace University3.Controllers
                 return StatusCode(500);
             }
         }
-        // add course for a student
-        // [HttpPut("{id}/course/{courseId}")]
-        // or
-        // [HttpPut]   and an EnrollmentUpdateDto
-        // maybe better, can be used to remove a student from a course with [HttpDelete] and the EnrollmentUpdateDto
 
         [HttpPut("{id}/course/{courseId}")]
         public async Task<ActionResult<StudentDto>> AddCourseToStudent(int id, int courseId)
@@ -140,6 +135,22 @@ namespace University3.Controllers
             if (await repo.SaveAsync())
             {
                 student = await repo.GetStudentAsync(id, true);
+                return Ok(mapper.Map<StudentDto>(student));
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+        [HttpDelete("{id}/course/{courseId}")]
+        public async Task<ActionResult<StudentDto>> RemoveCourseFromStudent(int id, int courseId)
+        {
+            var enrollment = await repo.GetEnrollmentAsync(id, courseId);
+            if (enrollment is null) return StatusCode(StatusCodes.Status404NotFound);
+            repo.Remove(enrollment);
+            if (await repo.SaveAsync())
+            {
+                var student = await repo.GetStudentAsync(id, true);
                 return Ok(mapper.Map<StudentDto>(student));
             }
             else
