@@ -30,6 +30,21 @@ namespace University3
             services.AddControllers().AddNewtonsoftJson();
             services.AddDbContext<University3Context>(options => options.UseSqlServer(Configuration.GetConnectionString("University3Context")));
             services.AddAutoMapper(typeof(Startup));
+
+            // 
+            // http://localhost:51333/swagger/LibraryOpenAPISpecification/swagger.json
+            // 
+            services.AddSwaggerGen(setupAction =>
+            {
+                setupAction.SwaggerDoc(
+                    "LibraryOpenAPISpecification",
+                    new Microsoft.OpenApi.Models.OpenApiInfo()
+                    {
+                        Title = "Library API",
+                        Version = "1"
+                    });
+
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +56,8 @@ namespace University3
             }
 
             app.UseRouting();
+
+            app.UseSwagger();
 
             app.UseAuthorization();
 
