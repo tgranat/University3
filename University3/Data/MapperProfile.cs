@@ -18,9 +18,10 @@ namespace University3.Data
             //    dest => dest.Courses,
             //    from => from.MapFrom(c => c.Enrollments.Select(e => e.Course).ToList()));
 
-            CreateMap<Enrollment, EnrollmentDto>();
-            CreateMap<Course, CourseDto>();
+            CreateMap<Enrollment, EnrollmentDto>().ReverseMap();
+            CreateMap<Course, CourseDto>().ReverseMap(); 
+            
 
-         }
+        }
     }
 }

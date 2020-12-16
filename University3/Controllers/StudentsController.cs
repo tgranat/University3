@@ -25,7 +25,7 @@ namespace University3.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Student>>> GetAllStudents(bool includeCourses = false)
+        public async Task<ActionResult<IEnumerable<StudentDto>>> GetAllStudents(bool includeCourses = false)
         {
             var result = await repo.GetAllStudentsAsync(includeCourses);
             var mappedResult = mapper.Map<IEnumerable<StudentDto>>(result);
@@ -35,7 +35,7 @@ namespace University3.Controllers
 
         // Another way to get all students including their courses
         [HttpGet("course")]
-        public async Task<ActionResult<IEnumerable<Student>>> GetAllStudentsAndCourse()
+        public async Task<ActionResult<IEnumerable<StudentDto>>> GetAllStudentsAndCourse()
         {
             var result = await repo.GetAllStudentsAsync(true);
             var mappedResult = mapper.Map<IEnumerable<StudentDto>>(result);
@@ -46,6 +46,7 @@ namespace University3.Controllers
         [HttpGet("searchByEmail/{email}")]
         public async Task<ActionResult<StudentDto>> GetStudent(string email, bool includeCourses = false)
         {
+            email = email.Trim();
             var result = await repo.GetStudentAsync(email, includeCourses);
             var mappedResult = mapper.Map<StudentDto>(result);
             return Ok(mappedResult);
@@ -53,9 +54,8 @@ namespace University3.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<Student>> GetStudent(int id, bool includeCourses = false)
+        public async Task<ActionResult<StudentDto>> GetStudent(int id, bool includeCourses = false)
         {
-
             var result = await repo.GetStudentAsync(id, includeCourses);
             var mappedResult = mapper.Map<StudentDto>(result);
             return Ok(mappedResult);
@@ -64,7 +64,7 @@ namespace University3.Controllers
         // Another way to get a student including their course
         [HttpGet]
         [Route("{id}/course")]
-        public async Task<ActionResult<Student>> GetStudentAndCourse(int id)
+        public async Task<ActionResult<StudentDto>> GetStudentAndCourse(int id)
         {
             var result = await repo.GetStudentAsync(id, true);
             var mappedResult = mapper.Map<StudentDto>(result);
@@ -72,7 +72,7 @@ namespace University3.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Student>> CreateStudent(StudentDto studentDto)
+        public async Task<ActionResult<StudentDto>> CreateStudent(StudentDto studentDto)
         {
             if (await repo.GetStudentAsync(studentDto.Email, false) != null)
             {
@@ -94,10 +94,28 @@ namespace University3.Controllers
             }
         }
 
+        // Update Student data only
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Student>> UpdateStudent(int id, StudentDto studentDto)
+        {
+            var student = await repo.GetStudentAsync(id, false);
+            if (student is null) return StatusCode(StatusCodes.Status404NotFound);
+            // Map incoming StudentDto to a Student
+            mapper.Map(studentDto, student);
+            if (await repo.SaveAsync())
+            {
+                // Map updated Student to StudentDto to return
+                return Ok(mapper.Map<StudentDto>(student));
+            }
+            else
+            {
+                return StatusCode(500);
+            }
+        }
 
         // TODO: test, move this to CoursesController
         [HttpGet("allcourses")]
-        public async Task<ActionResult<IEnumerable<Student>>> GetAllCourses()
+        public async Task<ActionResult<IEnumerable<StudentDto>>> GetAllCourses()
         {
             var result = await repo.GetAllCoursesAsync(true);
             var mappedResult = mapper.Map<IEnumerable<CourseDto>>(result);

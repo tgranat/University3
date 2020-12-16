@@ -7,6 +7,7 @@ namespace University3.Models.DTO
 {
     public class StudentDto
     {
+        public int Id { get; set; }
         public string FullName => $"{FirstName} {LastName}";
         public string FirstName { get; set; }
         public string LastName { get; set; }
