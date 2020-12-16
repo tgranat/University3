@@ -112,6 +112,11 @@ namespace University3.Controllers
                 return StatusCode(500);
             }
         }
+        // add course for a student
+        // [HttpPut("{id}/course/{courseId}")]
+        // or
+        // [HttpPut]   and an EnrollmentUpdateDto
+        // maybe better, can be used to remove a student from a course with [HttpDelete] and the EnrollmentUpdateDto
 
         // TODO: test, move this to CoursesController
         [HttpGet("allcourses")]
