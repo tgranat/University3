@@ -59,6 +59,16 @@ namespace University3
 
             app.UseSwagger();
 
+            //
+            // http://localhost:51333/swagger/index.html
+            //
+            app.UseSwaggerUI(setupAction =>
+            {
+                setupAction.SwaggerEndpoint(
+                    "/swagger/LibraryOpenAPISpecification/swagger.json",
+                    "Library API");
+            });
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
