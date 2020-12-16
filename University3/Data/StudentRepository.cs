@@ -53,15 +53,26 @@ namespace University3.Data
                 .ToListAsync();
         }
 
-        public async Task<Course> GetCourseAsync(bool includeStudents)
+        public async Task<Course> GetCourseAsync(int courseId, bool includeStudents)
         {
             return includeStudents ?
                 await db.Courses
                 .Include(s => s.Enrollments)
                 .ThenInclude(s => s.Student)
-                .FirstOrDefaultAsync() :
+                .FirstOrDefaultAsync(c => c.Id == courseId) :
                 await db.Courses
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(c => c.Id == courseId);
+        }
+
+        public async Task<Enrollment> GetEnrollmentAsync(int studentId, int courseId)
+        {
+            return await db.Enrollments
+                .FirstOrDefaultAsync(e => e.StudentId == studentId && e.CourseId == courseId);
+        }
+
+        public bool EnrollmentExists(int studentId, int courseId)
+        {
+            return db.Enrollments.Any(e => e.StudentId == studentId && e.CourseId == courseId);
         }
 
         public async Task AddAsync<T>(T added)

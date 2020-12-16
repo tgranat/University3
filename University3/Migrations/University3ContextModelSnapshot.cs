@@ -52,7 +52,7 @@ namespace University3.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Enrollment");
+                    b.ToTable("Enrollments");
                 });
 
             modelBuilder.Entity("University3.Models.Entities.Student", b =>

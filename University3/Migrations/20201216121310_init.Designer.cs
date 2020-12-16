@@ -9,7 +9,7 @@ using University3.Data;
 namespace University3.Migrations
 {
     [DbContext(typeof(University3Context))]
-    [Migration("20201215110432_init")]
+    [Migration("20201216121310_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,7 +54,7 @@ namespace University3.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Enrollment");
+                    b.ToTable("Enrollments");
                 });
 
             modelBuilder.Entity("University3.Models.Entities.Student", b =>

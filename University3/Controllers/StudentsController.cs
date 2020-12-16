@@ -96,7 +96,7 @@ namespace University3.Controllers
 
         // Update Student data only
         [HttpPut("{id}")]
-        public async Task<ActionResult<Student>> UpdateStudent(int id, StudentDto studentDto)
+        public async Task<ActionResult<StudentDto>> UpdateStudent(int id, StudentDto studentDto)
         {
             var student = await repo.GetStudentAsync(id, false);
             if (student is null) return StatusCode(StatusCodes.Status404NotFound);
@@ -117,6 +117,36 @@ namespace University3.Controllers
         // or
         // [HttpPut]   and an EnrollmentUpdateDto
         // maybe better, can be used to remove a student from a course with [HttpDelete] and the EnrollmentUpdateDto
+
+        [HttpPut("{id}/course/{courseId}")]
+        public async Task<ActionResult<StudentDto>> AddCourseToStudent(int id, int courseId)
+        { 
+            var student = await repo.GetStudentAsync(id, false);
+            if (student is null) return StatusCode(StatusCodes.Status404NotFound);
+            var course = await repo.GetCourseAsync(courseId, false);
+            if (course is null) return StatusCode(StatusCodes.Status404NotFound);
+            if (repo.EnrollmentExists(id, courseId))
+            {
+                ModelState.AddModelError("StudentId", "Student already enrolled to this course");
+                return BadRequest(ModelState);
+            }
+            
+            var enrollment = new Enrollment
+            {
+                StudentId = id,
+                CourseId = courseId
+            };
+            await repo.AddAsync(enrollment);
+            if (await repo.SaveAsync())
+            {
+                student = await repo.GetStudentAsync(id, true);
+                return Ok(mapper.Map<StudentDto>(student));
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
 
         // TODO: test, move this to CoursesController
         [HttpGet("allcourses")]

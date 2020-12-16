@@ -11,6 +11,7 @@ namespace University3.Data
     {
         public DbSet<Student> Students { get; set; }
         public DbSet<Course> Courses { get; set; }
+        public DbSet<Enrollment> Enrollments { get; set; }
         public University3Context(DbContextOptions<University3Context> options) : base(options) { }
     }
 }
