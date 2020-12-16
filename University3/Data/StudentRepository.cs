@@ -9,20 +9,25 @@ namespace University3.Data
 {
     public class StudentRepository
     {
-        private University3Context db;
+        private readonly University3Context db;
         public StudentRepository(University3Context db)
         {
             this.db = db;
         }
 
-        public async Task<IEnumerable<Student>> GetAllStudentsAsync(bool includeCourses)
+        // Skip and Take used for paging
+        public async Task<IEnumerable<Student>> GetAllStudentsAsync(bool includeCourses, int skip = 0, int take = 10)
         {
             return includeCourses ?
                 await db.Students
                 .Include(s => s.Enrollments)
                 .ThenInclude(s => s.Course)
+                .Skip(skip)
+                .Take(take)
                 .ToListAsync() :
                 await db.Students
+                .Skip(skip)
+                .Take(take)
                 .ToListAsync();
         }
         public async Task<Student> GetStudentAsync(string email, bool includeCourses)
